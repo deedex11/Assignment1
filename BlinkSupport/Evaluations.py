@@ -1,5 +1,6 @@
 from prettytable import PrettyTable
 import math
+import numpy as np
 # Open source library: https://pypi.org/project/PrettyTable/ Make sure to have prettytable.py downloaded in the same directory as this file
 
 def __CheckEvaluationInput(y, yPredicted):
@@ -170,3 +171,24 @@ def assignment2Comparing(yTestPredictedProb, yTestPredicted, yTest, xTestRaw):
     # Now get 20 worst false negatives
     sortedFalseNegatives = sorted(falseNegatives, key=lambda x: x[1], reverse=True)
     print("The worst 20 false negatives: " + str(sortedFalseNegatives[:20]))
+
+def ProduceROCPoints(yTest, yProbabilityEstimates):
+    metrics = [] #'Threshold, Precision, Recall, FalsePositiveRate, FalseNegativeRate \n'
+    thresholdRange = np.arange(0.01, 1.01, 0.01)
+    print('Threshold, Precision, Recall, FalsePositiveRate, FalseNegativeRate \n')
+    for threshold in thresholdRange:
+        yPredictions = []
+        for probability in yProbabilityEstimates:
+
+            if probability > threshold:
+                yPredictions.append(1)
+            else:
+                yPredictions.append(0)
+
+        text = str(threshold) + ", " \
+               + str(Precision(yTest, yPredictions)) \
+               + ", " + str(Recall(yTest, yPredictions)) \
+               + ", " + str(FalsePositiveRate(yTest, yPredictions)) \
+               + ", " + str(FalseNegativeRate(yTest, yPredictions))
+        print(text)
+        metrics.append(text)

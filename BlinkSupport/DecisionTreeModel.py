@@ -92,9 +92,13 @@ class TreeNode(object):
             childNode.AddData(subset[0], subset[1])
             self.children.append(childNode)
             childNode.GrowTree(minToSplit, featureSet)
-    def predict(self,x):
+    def predict(self,x, threshold=None):
         if self.splitIndex != None:
-            if x[self.splitIndex] < self.threshold:
+            if threshold != None:
+                useThreshold = threshold
+            else:
+                useThreshold = self.threshold
+            if x[self.splitIndex] < useThreshold:
                 return self.children[0].predict(x)
             else:
                 return self.children[1].predict(x)
