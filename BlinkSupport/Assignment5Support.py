@@ -82,7 +82,7 @@ def Convolution3x3(image, filter):
 
     return answer
 
-def Featurize(xTrainRaw, xTestRaw, includeGradients=True, includeRawPixels=False, includeIntensities=False):
+def Featurize(xTrainRaw, xTestRaw, includeGradients=False, includeRawPixels=False, includeIntensities=True):
     # featurize the training data, may want to do multiple passes to count things.
     xTrain = []
     for sample in xTrainRaw:
@@ -275,8 +275,8 @@ def VisualizeWeights(weightArray, outputPath):
     size = 12
 
     # note the extra weight for the bias is where the +1 comes from, just ignore it
-    if len(weightArray) != (size*size) + 1:
-        raise UserWarning("size of the weight array is %d but it should be %d" % (len(weightArray), (size*size) + 1))
+    if len(weightArray) != (size*size):
+        raise UserWarning("size of the weight array is %d but it should be %d" % (len(weightArray), (size*size)))
 
     if not outputPath.endswith(".jpg"):
         raise UserWarning("output path should be a path to a file that ends in .jpg, it is currently: %s" % (outputPath))
